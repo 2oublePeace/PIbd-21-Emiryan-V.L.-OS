@@ -4,8 +4,8 @@ public class Thread {
     private int parentProcess;
     private int threadID;
     private String threadState;
-    private int programCounter;
-    private int operations;
+    public int programCounter;
+    public int operations;
 
     public Thread(int parentProcess, int threadID, String state) {
         this.parentProcess = parentProcess;
@@ -15,22 +15,11 @@ public class Thread {
         operations = (int)(Math.random() * 10);
     }
 
-    public int performOperations(int timeToProcess) {
-        threadState = "Active";
-        do {
-            if(operations > 0) {
-                operations--;
-                programCounter++;
-            }
-        } while(operations > 0 && programCounter % timeToProcess != 0);
-        if(operations == 0) {
-            threadState = "Ended";
-        }
-        threadState = "Paused";
-        return programCounter;
-    }
-
     public String getThreadState() {
         return threadState;
+    }
+
+    public void setThreadState(String threadState) {
+        this.threadState = threadState;
     }
 }

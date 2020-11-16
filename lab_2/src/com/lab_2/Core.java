@@ -40,14 +40,22 @@ public class Core {
 
         while(isAllProcessesNotEnded()) {
             for(int i = 0; i < pausedProcesses.size(); i++) {
-                startedProcesses.add(pausedProcesses.poll());
-                Process tempProcess = (Process) startedProcesses.poll();
-                tempProcess.launchThreads();
-                if(tempProcess.getProcessState() == "Paused") {
-                    pausedProcesses.add(tempProcess);
-                } else if(tempProcess.getProcessState() == "Ended") {
-                    endedProcesses.add(tempProcess);
+                Process workingProcess = (Process) pausedProcesses.poll();
+                workingProcess.setProcessState("Active");
+                threadList = workingProcess.getThreads();
+                Thread tempThread = (Thread) threadList.get(i);
+                for (int j = 0; j < threadList.size(); i++) {
+                    workingProcess.setProcessCounter(performOperations(timeForProcess, tempThread));
                 }
+
+                if(workingProcess.isAllThreadsEnded()) {
+                    workingProcess.setProcessState("Ended");
+                    endedProcesses.add(workingProcess);
+                    break;
+                }
+
+                workingProcess.setProcessState("Pause");
+                pausedProcesses.add(workingProcess);
             }
         }
     }
@@ -62,5 +70,19 @@ public class Core {
         return false;
     }
 
+    private int performOperations(int timeForProcess, Thread thread) {
+        thread.setThreadState("Active");
+        do {
+            if(thread.operations > 0) {
+                thread.operations--;
+                thread.programCounter++;
+            }
+        } while(thread.operations > 0 && thread.programCounter % timeForProcess != 0);
+        if(thread.operations == 0) {
+            thread.setThreadState("Ended");
+        }
+        thread.setThreadState("Paused");
+        return thread.programCounter;
+    }
 
 }

@@ -25,22 +25,7 @@ public class Process {
         }
     }
 
-    public void launchThreads() {
-        processState = "Active";
-        for (int i = 0; i < threads.size(); i++) {
-            Thread tempThread = (Thread) threads.get(i);
-            processCounter += tempThread.performOperations(timeToProcess);
-        }
-
-        if(isAllThreadsEnded()) {
-            processState = "Ended";
-            return;
-        }
-
-        processState = "Paused";
-    }
-
-    private boolean isAllThreadsEnded() {
+    public boolean isAllThreadsEnded() {
         for(int i = 0; i < threads.size(); i++) {
             Thread tempThread = (Thread)threads.get(i);
             if(tempThread.getThreadState() == "Active" || tempThread.getThreadState() == "Paused") {
@@ -54,7 +39,17 @@ public class Process {
         return processState;
     }
 
+    public void setProcessState(String processState) {
+        this.processState = processState;
+    }
+
     public ArrayList getThreads() {
         return threads;
     }
+
+    public void setProcessCounter(int processCounter) {
+        this.processCounter += processCounter;
+    }
+
+
 }
