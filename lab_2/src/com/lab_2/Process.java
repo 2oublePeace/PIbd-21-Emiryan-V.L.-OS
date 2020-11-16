@@ -1,4 +1,4 @@
-package com.volodya;
+package com.lab_2;
 
 import java.util.ArrayList;
 
@@ -52,5 +52,9 @@ public class Process {
 
     public String getProcessState() {
         return processState;
+    }
+
+    public ArrayList getThreads() {
+        return threads;
     }
 }

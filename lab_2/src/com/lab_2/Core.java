@@ -1,4 +1,4 @@
-package com.volodya;
+package com.lab_2;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -9,6 +9,7 @@ public class Core {
     private int processesNum;
     private int timeForProcess;
     ArrayList processesList = new ArrayList();
+    ArrayList threadList = new ArrayList();
     Queue startedProcesses = new LinkedList();
     Queue pausedProcesses = new LinkedList();
     Queue endedProcesses = new LinkedList();
@@ -27,6 +28,8 @@ public class Core {
     public void addProcesses() {
         for(int i = 0; i < processesNum; i++) {
             processesList.add(new Process(i, "Paused", 0, timeForProcess));
+            Process tempProcess = (Process) processesList.get(i);
+            threadList.add(tempProcess.getThreads());
         }
     }
 
@@ -59,38 +62,5 @@ public class Core {
         return false;
     }
 
-    class Thread {
-        private int parentProcess;
-        private int threadID;
-        private String threadState;
-        private int programCounter;
-        private int operations;
 
-        public Thread(int parentProcess, int threadID, String state) {
-            this.parentProcess = parentProcess;
-            this.threadID = threadID;
-            this.threadState = state;
-            this.programCounter = 0;
-            operations = (int)(Math.random() * 10);
-        }
-
-        private int performOperations(int timeToProcess) {
-            threadState = "Active";
-            do {
-                if(operations > 0) {
-                    operations--;
-                    programCounter++;
-                }
-            } while(operations > 0 && programCounter % timeToProcess != 0);
-            if(operations == 0) {
-                threadState = "Ended";
-            }
-            threadState = "Paused";
-            return programCounter;
-        }
-
-        private String getThreadState() {
-            return threadState;
-        }
-    }
 }
