@@ -92,4 +92,12 @@ public class Core {
         }
         return false;
     }
+
+    public int getWoBreaking() {
+        return woBreaking;
+    }
+
+    public int getwBreaking() {
+        return wBreaking;
+    }
 }
